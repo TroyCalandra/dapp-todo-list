@@ -4,8 +4,6 @@ App = {
 
   load: async () => {
     await App.loadWeb3()
-    await App.loadAccount()
-    await App.loadContract()
     await App.render()
   },
 
@@ -19,17 +17,31 @@ App = {
     }
     // Modern dapp browsers...
     if (window.ethereum) {
+      console.log('inside first')
+      await App.loadContract()
+      await App.loadAccount()
+
       try {
-        // Request account access if needed
-        await ethereum.enable()
-        // Acccounts now exposed
-        web3.eth.sendTransaction({/* ... */})
+        const transactionHash = await ethereum.request({
+          method: 'eth_sendTransaction',
+          params: [
+            {
+              to: App.todoList.address,
+              'from': App.account,
+              value: '0x00',
+              // And so on...
+            },
+          ],
+        });
+        // Handle the result
+        console.log(transactionHash);
       } catch (error) {
         // User denied account access...
       }
     }
     // Legacy dapp browsers...
     else if (window.web3) {
+      console.log('inside second')
       App.web3Provider = web3.currentProvider
       window.web3 = new Web3(web3.currentProvider)
       // Acccounts always exposed
@@ -55,6 +67,7 @@ App = {
 
     // Hydrate the smart contract with values from the blockchain
     App.todoList = await App.contracts.TodoList.deployed()
+    console.log(App.todoList.address)
   },
 
   render: async () => {
