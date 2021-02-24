@@ -1,5 +1,17 @@
 {
+  "name": "eth-todo-list",
+  "version": "1.0.0",
+  "description": "Blockchain Todo List Powered By Ethereum",
+  "main": "truffle-config.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "dev": "lite-server",
+    "test": "echo \"Error: no test specified\" && sexit 1"
+  },
   "devDependencies": {
+    "@truffle/contract": "^4.3.7",
     "bootstrap": "^4.6.0",
     "chai": "^4.3.0",
     "chai-as-promised": "^7.1.1",
@@ -8,5 +20,8 @@
     "nodemon": "^2.0.7",
     "truffle": "5.0.2",
     "truffle-contract": "3.0.6"
+  },
+  "dependencies": {
+    "web3": "^1.2.1"
   }
 }
