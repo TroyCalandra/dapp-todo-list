@@ -15,12 +15,12 @@ App = {
     },
 
   loadContract: async () => {
-    // Create a JavaScript version of the smart contract
+    // Import smart contract file to interact with browser
     const todoList = await $.getJSON('TodoList.json')
     App.contracts.TodoList = TruffleContract(todoList)
     App.contracts.TodoList.defaults({from: App.account})
 
-    App.contracts.TodoList.setProvider(web3.currentProvider)
+    App.contracts.TodoList.setProvider(window.ethereum)
 
     // Hydrate the smart contract with values from the blockchain
     App.todoList = await App.contracts.TodoList.deployed()
@@ -78,6 +78,7 @@ App = {
     }
   },
 
+  // Call createTask function defined in contract
   createTask: async () => {
     App.setLoading(true)
     const content = $('#newTask').val()
@@ -85,6 +86,7 @@ App = {
     window.location.reload()
   },
 
+  // Call toggleCompleted function defined in contract
   toggleCompleted: async (e) => {
     App.setLoading(true)
     const taskId = e.target.name
